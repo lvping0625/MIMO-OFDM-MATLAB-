@@ -7,8 +7,8 @@ b=2;                % Set to 1/2/3/4 for BPSK/QPSK/16QAM/64QAM
 SNRdBs=[0:2:20]; 
 sq2=sqrt(2);
 %SNRdBs=[0:10:20]; sq2=sqrt(2);
-for iter=1:3
-   if iter==1
+for iter=1:3   %iterate 3 MIMO type
+   if iter==1  %define MIMO type and figure type
        NT=1;
        NR=1; 
        gs='-kx'; % SISO
@@ -22,17 +22,20 @@ for iter=1:3
        gs='-ro'; 
    end
    sq_NT=sqrt(NT);
-   for i_SNR=1:length(SNRdBs)
+   for i_SNR=1:length(SNRdBs)  %iterate SNR
       SNRdB=SNRdBs(i_SNR);  
       sigma=sqrt(0.5/(10^(SNRdB/10)));
-      for i_packet=1:N_packet
-         symbol_data=randi([0,1],L_frame*b,NT);
+      for i_packet=1:N_packet %发送N_packet数据验证误码率
+         %生成调制信号
+         symbol_data=randi([0,1],L_frame*b,NT);  %b为调制方式
          [temp,sym_tab,P]=modulator(symbol_data.',b);
          X=temp.';
-         Hr = (randn(L_frame,NR)+j*randn(L_frame,NR))/sq2;
+         %计算加噪声的信道
+         Hr = (randn(L_frame,NR)+j*randn(L_frame,NR))/sq2;%信道噪声是随机的
          H = reshape(Hr,L_frame,NR);
          Habs = sum(abs(H).^2,2); 
          Z=0;
+         %
          for i=1:NR
             R(:,i) = sum(H(:,i).*X,2)/sq_NT + sigma*(randn(L_frame,1)+j*randn(L_frame,1));
             Z = Z + R(:,i).*conj(H(:,i));
@@ -42,7 +45,7 @@ for iter=1:3
          end
          [y1,i1] = min(d1,[],2);  
          Xd=sym_tab(i1).';
-         temp1 = X>0;  
+         temp1 = X>0;  %仅比较数值的实数部分
          temp2 = Xd>0;
          noeb_p(i_packet)=sum(sum(temp1~=temp2));
       end
