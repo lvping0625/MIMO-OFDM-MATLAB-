@@ -5,7 +5,7 @@
 
 clear; clf;
 L_frame=130; N_packets=4000;  
-NT=3; NR=1; b=2; M=2^b;
+NT=3; NR=4; b=2; M=2^b;
 SNRdBs=[0:2:30];  sq_NT=sqrt(NT);  sq2=sqrt(2);
 for i_SNR=1:length(SNRdBs)
    SNRdB=SNRdBs(i_SNR);  sigma=sqrt(0.5/(10^(SNRdB/10)));
@@ -22,12 +22,11 @@ for i_SNR=1:length(SNRdBs)
       X2 = [-X(:,2)  X(:,1) -X(:,4)];  X6=conj(X2); 
       X3 = [-X(:,3)  X(:,4)  X(:,1)];  X7=conj(X3);
       X4 = [-X(:,4) -X(:,3)  X(:,2)];  X8=conj(X4);
-      % for n=1:NT
-      for n=1:NR
-          Hr(n,:,:)=(randn(L_frame,NT)+j*randn(L_frame,NT))/sq2;
+      for n=1:NT     
+                for n=1:NT   
+         Hr(n,:,:)=(randn(L_frame,NT)+j*randn(L_frame,NT))/sq2;
       end
-      % for n=1:NT
-      for n=1:NR
+      for n=1:NT
          H = reshape(Hr(n,:,:),L_frame,NT);  Hc=conj(H);
          Habs(:,n) = sum(abs(H).^2,2);
          R1n = sum(H.*X1,2)/sq_NT+sigma*(randn(L_frame,1)+j*randn(L_frame,1));
