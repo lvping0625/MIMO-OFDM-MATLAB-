@@ -13,6 +13,6 @@ PAPRdB = PAPR(x);
 PAPRdB_os = PAPR(x_os);
 subplot(221), plot(x,'o'), hold on, plot(x_os,'k*')
 axis([-0.4 0.4 -0.4 0.4]), axis('equal')
-plot(0.25*exp(j*pi/180*[0:359])) % circle with radius 0.25 ??????
+plot(0.25*exp(j*pi/180*[0:359])) % circle with radius 0.25
 subplot(222), plot(time,abs(x),'o', time_os,abs(x_os),'k:*')
 PAPRdB_without_and_with_oversampling=[PAPRdB  PAPRdB_os]
