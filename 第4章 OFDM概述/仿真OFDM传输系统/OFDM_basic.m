@@ -6,7 +6,7 @@ if NgType==1
 elseif NgType==2
     nt='ZP';   
 end
-Ch=1;  % Ch=0/1 for AWGN/multipath channel
+Ch=0;  % Ch=0/1 for AWGN/multipath channel
 if Ch==0
     chType='AWGN'; 
     Target_neb=100; 
@@ -27,7 +27,7 @@ Ng=16;                  % Guard interval length
 Nsym=Nfft+Ng;               % Symbol duration
 Nvc=Nfft/8;                 % Nvc=0: no virtual carrier
 Nused=Nfft-Nvc;
-EbN0=[0:1:20];    % EbN0
+EbN0=[0:1:30];    % EbN0
 N_iter=1e5;       % Number of iterations for each EbN0
 Nframe=16;         % Number of symbols per frame
 sigPow=0;         % Signal power initialization
